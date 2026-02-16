@@ -9,7 +9,7 @@ dotenv.config();
 const GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token";
 const GITHUB_USER_URL = "https://api.github.com/user";
 
-const REDIRECT_URI = `${process.env.REDIRECT_URI}/auth/github/callback`
+const REDIRECT_URI = process.env.REDIRECT_URI || "http://localhost:5000/auth/github/callback"
 
 const handleGithubCallback = async (code: string) => {
     const tokenResponse = await axios.post<GithubTokenResponse>(

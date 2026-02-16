@@ -1,7 +1,14 @@
+import { apiFetch } from './client';
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
-export function loginWithGitHub() {
-  window.location.href = `${API_BASE_URL}/auth/github`;
+export async function loginWithGitHub() {
+  try {
+    const data = await apiFetch<{ redirectUrl: string }>('/auth/github');
+    window.location.href = data.redirectUrl;
+  } catch (error) {
+    console.error('Login failed:', error);
+  }
 }
 
 export async function logout() {

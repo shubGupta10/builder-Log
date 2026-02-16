@@ -29,7 +29,7 @@ const handleGithubCallback = errorWrapper(
 const startGithubAuth = errorWrapper(
     async (req: Request, res: Response) => {
         const redirectUrl = authService.startGithubAuth();
-        return res.redirect(redirectUrl);
+        return res.json({ redirectUrl });
     }
 )
 

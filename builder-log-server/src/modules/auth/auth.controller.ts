@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import { authService } from "./auth.service.js";
 import { errorWrapper } from "../../utils/errorWrapper.js";
 import { signToken } from "../../utils/jwt.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const handleGithubCallback = errorWrapper(
     async (req: Request, res: Response) => {

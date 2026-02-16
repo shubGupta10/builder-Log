@@ -6,7 +6,14 @@ export const requireAuth = (
     res: Response,
     next: NextFunction
 ) => {
-    const token = req.cookies.auth_token;
+    let token = req.cookies.auth_token;
+
+    if (!token) {
+        const authHeader = req.headers.authorization;
+        if (authHeader?.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+        }
+    }
 
     if (!token) {
         return res.status(401).json({ message: "Unauthorized" });

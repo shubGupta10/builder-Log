@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { AuthStatus } from "../lib/api/types"
 import { logout } from "../lib/api/auth"
+import { apiFetch } from "../lib/api/client"
 
 export function useAuth() {
     const [status, setStatus] = useState<AuthStatus>("loading")
@@ -10,13 +11,7 @@ export function useAuth() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`, {
-                    credentials: "include",
-                })
-
-                if (!res.ok) {
-                    throw new Error("Not authenticated")
-                }
+                await apiFetch('/user/me');
                 setStatus("authenticated")
             } catch (error) {
                 setStatus("unauthenticated")

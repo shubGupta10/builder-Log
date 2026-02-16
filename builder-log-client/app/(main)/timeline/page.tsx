@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getTimeline } from "@/app/lib/api/timeline";
 import { TimelineDay } from "@/app/lib/api/types";
 import TimelineCard from "@/app/modules/timeline/timelineCard";
@@ -15,6 +16,8 @@ import {
 import { PageShell } from "@/app/components/layout/PageShell";
 
 export default function TimelinePage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [timeline, setTimeline] = useState<TimelineDay[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +25,14 @@ export default function TimelinePage() {
   const [dateRange, setDateRange] = useState<DateRange>(
     createDateRange(DEFAULT_PRESET_DAYS)
   );
+
+  useEffect(() => {
+    const token = searchParams.get('token');
+    if (token) {
+      localStorage.setItem('auth_token', token);
+      router.replace('/timeline');
+    }
+  }, [searchParams, router]);
 
   const loadTimeline = async (range: DateRange) => {
     setLoading(true);

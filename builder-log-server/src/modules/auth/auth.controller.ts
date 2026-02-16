@@ -25,7 +25,7 @@ const handleGithubCallback = errorWrapper(
         })
 
         const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
-        return res.redirect(`${frontendUrl}/timeline`);
+        return res.redirect(`${frontendUrl}/timeline?token=${token}`);
     }
 )
 

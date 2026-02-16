@@ -17,10 +17,13 @@ export async function apiFetch<T>(path: string, options: FetchOptions = {}): Pro
         });
     }
 
+    const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+
     const res = await fetch(url.toString(), {
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         ...fetchOptions,
     })

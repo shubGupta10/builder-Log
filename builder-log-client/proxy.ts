@@ -6,13 +6,7 @@ export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     const isProtectedRoute = pathname.startsWith("/timeline") || pathname.startsWith("/insights") || pathname.startsWith("/projects") || pathname.startsWith("/settings");
-
     const isAuthRoute = pathname.startsWith("/login");
-
-    if (isProtectedRoute && !authToken) {
-        const loginUrl = new URL("/login", request.url);
-        return NextResponse.redirect(loginUrl);
-    }
 
     if (isAuthRoute && authToken) {
         const timelineUrl = new URL("/timeline", request.url);
@@ -24,7 +18,6 @@ export function proxy(request: NextRequest) {
     if (isProtectedRoute) {
         response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
         response.headers.set('Pragma', 'no-cache');
-        response.headers.set('Expires', '0');
     }
 
     return response;

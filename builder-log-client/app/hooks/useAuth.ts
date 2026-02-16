@@ -10,7 +10,7 @@ export function useAuth() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`, {
                     credentials: "include",
                 })
 

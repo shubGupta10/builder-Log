@@ -18,7 +18,7 @@ const handleGithubCallback = errorWrapper(
         res.cookie("auth_token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
+            sameSite: "none",
         })
 
         const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
@@ -38,7 +38,7 @@ const logoutUser = errorWrapper(
         res.clearCookie("auth_token", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "lax"
+            sameSite: "none"
         })
 
         return res.status(200).json({

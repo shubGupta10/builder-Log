@@ -1,5 +1,6 @@
 import redis from "../../lib/redis.js";
 import { GithubAuth } from "../auth/githubAuth.model.js"
+import { User } from "../user/user.model.js";
 
 const getGithubStatus = async (userId: string) => {
     const findUser = await GithubAuth.findOne({ userId }).populate('userId');
@@ -64,9 +65,25 @@ const disconnectUser = async (userId: string) => {
     }
 }
 
+const toggleBuilderProfile = async (userId: string, isBuilderProfile: boolean) => {
+    const findUser = await User.findById(userId);
+    if (!findUser) {
+        throw new Error("User not found")
+    }
+
+    findUser.isBuilderProfile = isBuilderProfile;
+    await findUser.save();
+
+    return {
+        message: "Builder profile toggled properly",
+        isBuilderProfile: findUser.isBuilderProfile
+    }
+}
+
 
 export const settingsService = {
     getGithubStatus,
     resyncGithub,
-    disconnectUser
+    disconnectUser,
+    toggleBuilderProfile
 }

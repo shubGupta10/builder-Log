@@ -129,3 +129,61 @@ export type DisconnectResponse = {
   message: string;
   success: boolean;
 }; 
+
+// Public Profile types
+export type PublicProfile = {
+  username: string;
+  displayName: string | null;
+  avatarUrl: string;
+  bio: string | null;
+  githubUrl: string;
+  joinedAt: string;
+};
+
+export type PublicSummary = {
+  activeDays: number;
+  currentStreak: number;
+  lastActiveStreak: number;
+  totalProjects: number;
+  momentum: "up" | "down" | "stable";
+};
+
+export type ConsistencyStrip = {
+  range: {
+    from: string;
+    to: string;
+  };
+  activityByDay: ActivityDay[];
+};
+
+export type PublicProject = {
+  repoOwner: string;
+  repoName: string;
+  status: "active" | "stalled" | "shipped";
+  sessionCount: number;
+  lastActivityAt: string;
+};
+
+export type PublicActivity = {
+  type: "commit" | "pull_request";
+  repoOwner: string;
+  repoName: string;
+  occurredAt: string;
+};
+
+export type PublicProfileData = {
+  profile: PublicProfile;
+  summary: PublicSummary;
+  consistencyStrip: ConsistencyStrip;
+  projects: PublicProject[];
+  recentActivity: PublicActivity[];
+  meta: {
+    generatedAt: string;
+    dataRangeDays: number;
+  };
+};
+
+export type PublicProfileResponse = {
+  success: boolean;
+  data: PublicProfileData;
+};

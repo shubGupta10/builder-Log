@@ -6,8 +6,8 @@ export interface IUser extends Document {
 
   displayName?: string;
   bio?: string;
-  isPublic: boolean;
-  publicSlug?: string;
+  isBuilderProfile: boolean;
+  builderSlug?: string;
 
   onboardingDone: boolean;
   lastLoginAt?: Date;

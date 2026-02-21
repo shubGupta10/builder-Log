@@ -10,6 +10,7 @@ import timelineRouter from "./routers/timeline/timeline.router.js";
 import insightsRouter from "./routers/insights/insights.router.js";
 import projectsRouter from "./routers/projects/projects.router.js";
 import settingsRouter from "./routers/settings/settings.router.js";
+import publicRouter from "./routers/public/public.router.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use("/timeline", timelineRouter);
 app.use("/insights", insightsRouter);
 app.use("/projects", projectsRouter);
 app.use("/settings", settingsRouter);
+app.use("/public", publicRouter);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

@@ -28,11 +28,11 @@ const UserSchema = new Schema<IUser>(
     bio: {
       type: String,
     },
-    isPublic: {
+    isBuilderProfile: {
       type: Boolean,
       default: false,
     },
-    publicSlug: {
+    builderSlug: {
       type: String,
       unique: true,
       sparse: true,

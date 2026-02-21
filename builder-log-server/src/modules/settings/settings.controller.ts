@@ -52,8 +52,26 @@ const disconnectUser = errorWrapper(
     }
 )
 
+const toggleBuilderProfile = errorWrapper(
+    async (req: Request, res: Response) => {
+        const userId = req.user?.id;
+        if (!userId) {
+            throw new Error("User not authenticated");
+        }
+        const { isBuilderProfile} = req.body;
+
+        const updatedUser = await settingsService.toggleBuilderProfile(userId, isBuilderProfile);
+
+        return res.status(200).json({
+            message: "Builder profile updated successfully",
+            isBuilderProfile: updatedUser.isBuilderProfile
+        })
+    }
+)
+
 export {
     getGithubStatus,
     resyncGithub,
-    disconnectUser
+    disconnectUser,
+    toggleBuilderProfile
 }

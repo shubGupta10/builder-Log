@@ -51,8 +51,12 @@ export function Sidebar({ isMobileOpen, onClose }: { isMobileOpen?: boolean; onC
     { href: "/timeline", label: "Timeline", icon: Clock },
     { href: "/insights", label: "Insights", icon: BarChart3 },
     { href: "/projects", label: "Projects", icon: FolderGit2 },
-    { href: "/settings", label: "Settings", icon: Settings2Icon }
+    { href: "/settings", label: "Settings", icon: Settings2Icon },
   ];
+
+  const publicProfileLink = userData
+    ? { href: `/public/${userData.githubUsername}`, label: "Public Profile", icon: User }
+    : null;
 
   const isActive = (path: string) => pathname === path;
 
@@ -112,6 +116,25 @@ export function Sidebar({ isMobileOpen, onClose }: { isMobileOpen?: boolean; onC
                 </Link>
               );
             })}
+
+            {/* Public Profile Link - Dynamically Generated */}
+            {publicProfileLink && (
+              <>
+                <div className="h-px bg-border my-2" />
+                <Link
+                  href={publicProfileLink.href}
+                  onClick={onClose}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${isActive(publicProfileLink.href)
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    }`}
+                  title={isCollapsed ? publicProfileLink.label : undefined}
+                >
+                  <publicProfileLink.icon className="w-5 h-5" />
+                  {!isCollapsed && <span className="font-medium">{publicProfileLink.label}</span>}
+                </Link>
+              </>
+            )}
           </nav>
 
           <div className="border-t border-border p-3">

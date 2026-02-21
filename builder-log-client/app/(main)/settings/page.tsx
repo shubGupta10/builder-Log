@@ -63,6 +63,7 @@ export default function SettingsPage() {
                     githubAvatarUrl={status.stats.githubAvatarUrl}
                     connectedSince={status.stats.connectedSince}
                     oauthScope={status.stats.oauthScope}
+                    isBuilderProfile={status.stats.isBuilderProfile}
                     onResync={handleResync}
                     onDisconnect={handleDisconnect}
                 />

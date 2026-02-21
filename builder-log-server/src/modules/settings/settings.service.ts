@@ -20,6 +20,7 @@ const getGithubStatus = async (userId: string) => {
         githubAvatarUrl: user?.githubAvatarUrl,
         connectedSince: findUser.createdAt,
         oauthScope: findUser.scope,
+        isBuilderProfile: user?.isBuilderProfile ?? false,
     }
 }
 
@@ -73,6 +74,10 @@ const toggleBuilderProfile = async (userId: string, isBuilderProfile: boolean) =
 
     findUser.isBuilderProfile = isBuilderProfile;
     await findUser.save();
+
+    if (findUser.githubUsername) {
+        await redis.del(`public-profile:${findUser.githubUsername}`);
+    }
 
     return {
         message: "Builder profile toggled properly",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { resyncGitHub, disconnectGitHub } from "@/app/lib/api/settings";
+import { resyncGitHub, disconnectGitHub, toggleBuilderProfile } from "@/app/lib/api/settings";
 
 type GitHubConnectionCardProps = {
     connected: boolean;
@@ -9,6 +9,7 @@ type GitHubConnectionCardProps = {
     githubAvatarUrl?: string;
     connectedSince?: string;
     oauthScope?: string;
+    isBuilderProfile?: boolean;
     onResync?: () => void;
     onDisconnect?: () => void;
 };
@@ -19,11 +20,14 @@ export function GitHubConnectionCard({
     githubAvatarUrl,
     connectedSince,
     oauthScope,
+    isBuilderProfile: initialIsBuilderProfile,
     onResync,
     onDisconnect,
 }: GitHubConnectionCardProps) {
     const [isResyncing, setIsResyncing] = useState(false);
     const [isDisconnecting, setIsDisconnecting] = useState(false);
+    const [isBuilderProfile, setIsBuilderProfile] = useState(initialIsBuilderProfile ?? false);
+    const [isToggling, setIsToggling] = useState(false);
 
     const handleResync = async () => {
         setIsResyncing(true);
@@ -46,6 +50,19 @@ export function GitHubConnectionCard({
             console.error("Failed to disconnect GitHub:", error);
         } finally {
             setIsDisconnecting(false);
+        }
+    };
+
+    const handleToggleBuilderProfile = async () => {
+        setIsToggling(true);
+        try {
+            const newValue = !isBuilderProfile;
+            const result = await toggleBuilderProfile(newValue);
+            setIsBuilderProfile(result.isBuilderProfile);
+        } catch (error) {
+            console.error("Failed to toggle builder profile:", error);
+        } finally {
+            setIsToggling(false);
         }
     };
 
@@ -145,6 +162,32 @@ export function GitHubConnectionCard({
             </div>
 
             <div className="border-t border-border pt-6 space-y-4">
+                <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                        <p className="text-sm font-medium text-foreground mb-1">
+                            Public Profile
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                            Make your BuildLog profile publicly visible at /public/{githubUsername}
+                        </p>
+                    </div>
+                    <button
+                        onClick={handleToggleBuilderProfile}
+                        disabled={isToggling}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${
+                            isBuilderProfile ? "bg-primary" : "bg-muted"
+                        }`}
+                        role="switch"
+                        aria-checked={isBuilderProfile}
+                    >
+                        <span
+                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                isBuilderProfile ? "translate-x-6" : "translate-x-1"
+                            }`}
+                        />
+                    </button>
+                </div>
+
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                         <p className="text-sm text-foreground mb-1">

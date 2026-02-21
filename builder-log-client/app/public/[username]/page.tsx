@@ -34,9 +34,8 @@ export default function PublicProfilePage() {
                 const res = await getPublicProfile(username);
                 setProfile(res.data);
             } catch (err: any) {
-                setError(
-                    err.message || "Failed to load profile. This user may not have a public profile."
-                );
+                const errorMessage = err.message || "Failed to load profile";
+                setError(errorMessage);
             } finally {
                 setLoading(false);
             }
@@ -54,13 +53,49 @@ export default function PublicProfilePage() {
     }
 
     if (error || !profile) {
+        const isProfileDisabled = error?.toLowerCase().includes("not public") || error?.toLowerCase().includes("disabled");
+        const isUserNotFound = error?.toLowerCase().includes("not found");
+
         return (
             <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="text-center max-w-md px-6">
-                    <h1 className="text-2xl font-bold text-foreground mb-2">Profile Not Found</h1>
-                    <p className="text-muted-foreground">
-                        {error || "This user does not have a public profile or does not exist."}
-                    </p>
+                    {isProfileDisabled ? (
+                        <>
+                            <div className="mb-4">
+                                <svg
+                                    className="w-16 h-16 mx-auto text-muted-foreground"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={1.5}
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                                    />
+                                </svg>
+                            </div>
+                            <h1 className="text-2xl font-bold text-foreground mb-2">Profile Not Available</h1>
+                            <p className="text-muted-foreground">
+                                This user has disabled their public profile. The page is private and cannot be accessed.
+                            </p>
+                        </>
+                    ) : isUserNotFound ? (
+                        <>
+                            <h1 className="text-2xl font-bold text-foreground mb-2">User Not Found</h1>
+                            <p className="text-muted-foreground">
+                                The user "{username}" does not exist or hasn't created a BuildLog account yet.
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <h1 className="text-2xl font-bold text-foreground mb-2">Profile Not Found</h1>
+                            <p className="text-muted-foreground">
+                                {error || "Unable to load this profile. Please try again later."}
+                            </p>
+                        </>
+                    )}
                 </div>
             </div>
         );

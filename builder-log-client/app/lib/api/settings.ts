@@ -16,3 +16,10 @@ export function disconnectGitHub() {
         method: "GET",
     });
 }
+
+export function toggleBuilderProfile(isBuilderProfile: boolean) {
+    return apiFetch<{ message: string; isBuilderProfile: boolean }>("/settings/builder-profile", {
+        method: "PATCH",
+        body: JSON.stringify({ isBuilderProfile }),
+    });
+}

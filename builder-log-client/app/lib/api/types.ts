@@ -117,6 +117,7 @@ export type GitHubStatus = {
     githubAvatarUrl?: string;
     connectedSince?: string;
     oauthScope?: string;
+    isBuilderProfile?: boolean;
   };
 };
 

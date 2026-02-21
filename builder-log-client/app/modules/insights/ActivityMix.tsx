@@ -1,5 +1,6 @@
 import React from "react";
 import type { ActivityMix as ActivityMixType, SessionsOverTime } from "@/app/lib/api/types";
+import { InfoTooltip } from "@/app/components/ui/InfoTooltip";
 
 type ActivityMixProps = {
     data: ActivityMixType;
@@ -37,7 +38,10 @@ export function ActivityMix({ data, sessionsOverTime }: ActivityMixProps) {
     return (
         <div className="bg-card border border-border rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-foreground">Activity Mix</h2>
+                <div className="flex items-center gap-2 relative">
+                    <h2 className="text-lg font-semibold text-foreground">Activity Mix</h2>
+                    <InfoTooltip text="The distribution of your coding sessions between committing code and reviewing pull requests." />
+                </div>
                 <div className="flex items-center gap-4 text-xs">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-primary"></div>
@@ -64,15 +68,29 @@ export function ActivityMix({ data, sessionsOverTime }: ActivityMixProps) {
                                 <div className="flex-1 flex gap-0.5 h-8 bg-muted rounded-lg overflow-hidden">
                                     {commitsPercent > 0 && (
                                         <div
-                                            className="bg-primary transition-all"
+                                            className="bg-primary transition-all flex items-center justify-center overflow-hidden"
                                             style={{ width: `${commitsPercent}%` }}
-                                        />
+                                            title={`${week.commits} commits`}
+                                        >
+                                            {commitsPercent > 5 && week.commits > 0 && (
+                                                <span className="text-[10px] font-semibold text-primary-foreground">
+                                                    {week.commits}
+                                                </span>
+                                            )}
+                                        </div>
                                     )}
                                     {prsPercent > 0 && (
                                         <div
-                                            className="bg-chart-2 transition-all"
+                                            className="bg-chart-2 transition-all flex items-center justify-center overflow-hidden"
                                             style={{ width: `${prsPercent}%` }}
-                                        />
+                                            title={`${week.pullRequests} pull requests`}
+                                        >
+                                            {prsPercent > 5 && week.pullRequests > 0 && (
+                                                <span className="text-[10px] font-semibold text-primary-foreground">
+                                                    {week.pullRequests}
+                                                </span>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                             </div>

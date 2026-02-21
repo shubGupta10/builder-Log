@@ -1,5 +1,6 @@
 import React from "react";
 import type { FocusDistribution as FocusDistributionType } from "@/app/lib/api/types";
+import { InfoTooltip } from "@/app/components/ui/InfoTooltip";
 
 type FocusDistributionProps = {
     data: FocusDistributionType[];
@@ -10,7 +11,10 @@ export function FocusDistribution({ data }: FocusDistributionProps) {
 
     return (
         <div className="bg-card border border-border rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-foreground mb-6">Focus Distribution</h2>
+            <div className="flex items-center gap-2 mb-6">
+                <h2 className="text-lg font-semibold text-foreground">Focus Distribution</h2>
+                <InfoTooltip text="A breakdown of which repositories you spent the most development sessions working on." />
+            </div>
 
             <div className="space-y-4">
                 {data.map((repo) => {

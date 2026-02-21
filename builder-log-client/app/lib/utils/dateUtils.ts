@@ -22,3 +22,25 @@ export const createDateRange = (daysAgo: number): DateRange => {
 export const formatDateForAPI = (date: Date): string => {
   return format(date, "yyyy-MM-dd");
 };
+
+export const formatDuration = (startIso: string, endIso: string): string => {
+  const start = new Date(startIso).getTime();
+  const end = new Date(endIso).getTime();
+
+  // Difference in minutes
+  const diffInMinutes = Math.floor((end - start) / 60000);
+
+  // If difference is less than 1 minute (e.g. single event session), show minimum 1m
+  if (diffInMinutes < 1) {
+    return "1m";
+  }
+
+  const hours = Math.floor(diffInMinutes / 60);
+  const minutes = diffInMinutes % 60;
+
+  if (hours > 0) {
+    return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
+  }
+
+  return `${minutes}m`;
+};

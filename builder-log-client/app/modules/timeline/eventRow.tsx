@@ -31,10 +31,6 @@ function EventRow({ event }: { event: TimelineEvent }) {
           {isCommit ? "commit" : "pull request"}
         </span>
       </div>
-
-      <span className="text-xs text-muted-foreground tabular-nums shrink-0">
-        {time}
-      </span>
     </div>
   );
 }

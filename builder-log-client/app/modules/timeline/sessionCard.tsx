@@ -1,17 +1,9 @@
 import { TimelineSession } from "@/app/lib/api/types";
 import EventRow from "./eventRow";
-
-function formatTime(isoString: string): string {
-  return new Date(isoString).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-}
+import { formatDuration } from "@/app/lib/utils/dateUtils";
 
 function SessionCard({ session }: { session: TimelineSession }) {
-  const startTime = formatTime(session.startTime);
-  const endTime = formatTime(session.endTime);
+  const durationDisplay = formatDuration(session.startTime, session.endTime);
 
   return (
     <div className="bg-card border border-border rounded-lg shadow-sm mb-3 last:mb-0 overflow-hidden">
@@ -27,7 +19,7 @@ function SessionCard({ session }: { session: TimelineSession }) {
           </span>
         </div>
         <span className="ml-4 shrink-0 text-xs font-medium text-muted-foreground bg-muted px-2.5 py-1 rounded-md tabular-nums">
-          {startTime} – {endTime}
+          {durationDisplay}
         </span>
       </div>
 

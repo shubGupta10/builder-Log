@@ -1,5 +1,6 @@
 import React from "react";
 import type { Consistency } from "@/app/lib/api/types";
+import { InfoTooltip } from "@/app/components/ui/InfoTooltip";
 
 type ConsistencyStripProps = {
     consistency: Consistency;
@@ -25,7 +26,10 @@ export function ConsistencyStrip({ consistency }: ConsistencyStripProps) {
     return (
         <div className="bg-card border border-border rounded-lg p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-foreground">Consistency Strip</h2>
+                <div className="flex items-center gap-2">
+                    <h2 className="text-lg font-semibold text-foreground">Consistency Strip</h2>
+                    <InfoTooltip text="Tracks your daily coding habits. A full block means you were active that day." />
+                </div>
                 <div className="flex items-center gap-4 text-xs">
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-sm bg-muted"></div>

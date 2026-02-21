@@ -1,5 +1,6 @@
 import React from "react";
 import type { Momentum as MomentumType } from "@/app/lib/api/types";
+import { InfoTooltip } from "@/app/components/ui/InfoTooltip";
 
 type MomentumSummaryProps = {
     data: MomentumType;
@@ -55,7 +56,10 @@ export function MomentumSummary({ data }: MomentumSummaryProps) {
 
     return (
         <div className="bg-card border border-border rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-foreground mb-6">Momentum Summary</h2>
+            <div className="flex items-center gap-2 mb-6">
+                <h2 className="text-lg font-semibold text-foreground">Momentum Summary</h2>
+                <InfoTooltip text="An overall trend of your coding velocity based on daily averages." />
+            </div>
 
             <div className="space-y-6">
                 {/* Trend */}

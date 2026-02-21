@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
 
-export function AuthGuard({ children }: { children: React.ReactNode }) {
+function AuthGuardContent({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { isAuthenticated, isLoading } = useAuth();
@@ -43,4 +43,16 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     }
 
     return <>{children}</>;
+}
+
+export function AuthGuard({ children }: { children: React.ReactNode }) {
+    return (
+        <Suspense fallback={
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-pulse text-muted-foreground">Loading...</div>
+            </div>
+        }>
+            <AuthGuardContent>{children}</AuthGuardContent>
+        </Suspense>
+    );
 }

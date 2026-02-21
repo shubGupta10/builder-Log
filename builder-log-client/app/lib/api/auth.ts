@@ -20,7 +20,6 @@ export async function logout() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('auth_token');
     }
-    document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location.href = '/login';
   } catch (error) {
     console.error("Logout failed:", error);

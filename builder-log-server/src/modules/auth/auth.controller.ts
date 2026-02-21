@@ -18,12 +18,6 @@ const handleGithubCallback = errorWrapper(
 
         const token = signToken(user._id.toString());
 
-        res.cookie("auth_token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "none",
-        })
-
         const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
         return res.redirect(`${frontendUrl}/timeline?token=${token}`);
     }
@@ -38,12 +32,6 @@ const startGithubAuth = errorWrapper(
 
 const logoutUser = errorWrapper(
     async (req: Request, res: Response) => {
-        res.clearCookie("auth_token", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "none"
-        })
-
         return res.status(200).json({
             message: "Logged out successfully"
         })

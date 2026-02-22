@@ -11,7 +11,7 @@ export default function CTA() {
                 </h2>
 
                 <Link
-                    href="/"
+                    href="/login"
                     className="inline-flex items-center gap-2 rounded-md bg-primary px-7 py-3 text-[0.9375rem] font-semibold text-primary-foreground shadow-sm hover:brightness-110 active:scale-95 transition-all"
                 >
                     <Github className="h-4 w-4 shrink-0" />

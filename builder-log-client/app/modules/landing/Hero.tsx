@@ -18,13 +18,13 @@ export default function Hero() {
             actions={[
                 {
                     text: "Sign in with GitHub",
-                    href: "/",
+                    href: "/login",
                     variant: "default",
                     icon: <Github className="h-5 w-5" />,
                 },
                 {
                     text: "View example profile",
-                    href: "/",
+                    href: "#showcase",
                     variant: "outline",
                 },
             ]}

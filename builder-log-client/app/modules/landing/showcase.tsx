@@ -15,7 +15,7 @@ const cards = [
 
 export default function Showcase() {
     return (
-        <section className="bg-background py-24 sm:py-32">
+        <section id="showcase" className="bg-background py-24 sm:py-32">
             <div className="mx-auto max-w-6xl px-6">
 
                 {/* Header — centered like the screenshot */}

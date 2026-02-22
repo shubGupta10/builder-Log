@@ -28,7 +28,7 @@ export default function Footer() {
                         Terms
                     </Link>
                     <Link
-                        href="https://github.com"
+                        href="https://github.com/shubGupta10/builder-Log"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-foreground transition-colors"
@@ -37,7 +37,7 @@ export default function Footer() {
                         <Github className="h-4 w-4" />
                     </Link>
                     <Link
-                        href="https://x.com"
+                        href="https://x.com/buildwithshub"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-muted-foreground hover:text-foreground transition-colors"

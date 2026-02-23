@@ -6,22 +6,26 @@ type ConsistencyStripProps = {
     consistency: Consistency;
 };
 
+const DAYS_PER_ROW = 30;
+
+function chunkArray<T>(arr: T[], size: number): T[][] {
+    const chunks: T[][] = [];
+    for (let i = 0; i < arr.length; i += size) {
+        chunks.push(arr.slice(i, i + size));
+    }
+    return chunks;
+}
+
 export function ConsistencyStrip({ consistency }: ConsistencyStripProps) {
     const { activityByDay, activeDays, currentStreak, lastActiveStreak } = consistency;
 
-    // Group days by weeks for better visual organization
-    const totalDays = activityByDay.length;
-    const daysPerRow = Math.ceil(totalDays / 1); // Single row for now
+    const rows = chunkArray(activityByDay, DAYS_PER_ROW);
+    const colsPerRow = Math.min(activityByDay.length, DAYS_PER_ROW);
 
-    // Get date labels (first, middle, last)
     const getDateLabel = (dateStr: string) => {
         const date = new Date(dateStr);
         return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     };
-
-    const firstDate = activityByDay[0]?.date;
-    const midDate = activityByDay[Math.floor(totalDays / 2)]?.date;
-    const lastDate = activityByDay[totalDays - 1]?.date;
 
     return (
         <div className="bg-card border border-border rounded-lg p-6 mb-6">
@@ -42,25 +46,35 @@ export function ConsistencyStrip({ consistency }: ConsistencyStripProps) {
                 </div>
             </div>
 
-            {/* Activity strip */}
-            <div className="mb-3">
-                <div className="flex gap-1 mb-2">
-                    {activityByDay.map((day, index) => (
-                        <div
-                            key={day.date}
-                            className={`flex-1 h-12 rounded-sm transition-colors ${day.hasActivity ? "bg-primary" : "bg-muted"
-                                }`}
-                            title={`${day.date}: ${day.hasActivity ? "Active" : "Inactive"}`}
-                        />
-                    ))}
-                </div>
-
-                {/* Date labels */}
-                <div className="flex justify-between text-xs text-muted-foreground px-1">
-                    <span>{firstDate && getDateLabel(firstDate)}</span>
-                    <span>{midDate && getDateLabel(midDate)}</span>
-                    <span>{lastDate && getDateLabel(lastDate)}</span>
-                </div>
+            {/* Activity rows - each row = 30 days */}
+            <div className="flex flex-col gap-3 mb-3">
+                {rows.map((row, rowIndex) => {
+                    const firstDate = row[0]?.date;
+                    const lastDate = row[row.length - 1]?.date;
+                    return (
+                        <div key={rowIndex}>
+                            <div
+                                className="grid gap-[3px] mb-1"
+                                style={{ gridTemplateColumns: `repeat(${colsPerRow}, 1fr)` }}
+                            >
+                                {row.map((day) => (
+                                    <div
+                                        key={day.date}
+                                        className={`h-8 rounded-sm transition-colors ${day.hasActivity ? "bg-primary" : "bg-muted"
+                                            }`}
+                                        title={`${day.date}: ${day.hasActivity ? "Active" : "Inactive"}`}
+                                    />
+                                ))}
+                            </div>
+                            <div className="flex justify-between text-[10px] text-muted-foreground px-0.5">
+                                <span>{firstDate && getDateLabel(firstDate)}</span>
+                                {lastDate && lastDate !== firstDate && (
+                                    <span>{getDateLabel(lastDate)}</span>
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
 
             {/* Stats */}

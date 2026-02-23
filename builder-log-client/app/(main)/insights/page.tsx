@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getInsights } from "@/app/lib/api/insights";
 import type { InsightsData } from "@/app/lib/api/types";
-import { DateRangeHeader } from "@/app/modules/insights/DateRangeHeader";
+import { DateRangeSelector } from "@/components/ui/date-range-selector";
 import { ConsistencyStrip } from "@/app/modules/insights/ConsistencyStrip";
 import { SessionsOverTime } from "@/app/modules/insights/SessionsOverTime";
 import { ActivityMix } from "@/app/modules/insights/ActivityMix";
@@ -11,18 +11,27 @@ import { FocusDistribution } from "@/app/modules/insights/FocusDistribution";
 import { MomentumSummary } from "@/app/modules/insights/MomentumSummary";
 import { formatDateForAPI, createDateRange } from "@/app/lib/utils/dateUtils";
 import { PageShell } from "@/app/components/layout/PageShell";
+import { DateRange } from "react-day-picker";
 
 export default function InsightsPage() {
   const [insights, setInsights] = useState<InsightsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadInsights = async () => {
+  const [date, setDate] = useState<DateRange | undefined>(() => {
+    const range = createDateRange(30);
+    return {
+      from: range.from,
+      to: range.to
+    };
+  });
+
+  const loadInsights = async (range: DateRange | undefined) => {
+    if (!range?.from || !range?.to) return;
+
     setLoading(true);
     setError(null);
     try {
-      // Default to last 30 days
-      const range = createDateRange(30);
       const res = await getInsights({
         from: formatDateForAPI(range.from),
         to: formatDateForAPI(range.to),
@@ -40,11 +49,15 @@ export default function InsightsPage() {
   };
 
   useEffect(() => {
-    loadInsights();
-  }, []);
+    loadInsights(date);
+  }, [date]);
 
   return (
     <PageShell>
+      <div className="mb-8">
+        <DateRangeSelector date={date} setDate={setDate} />
+      </div>
+
       {loading && (
         <div className="flex items-center justify-center h-96 text-muted-foreground text-sm">
           <div className="animate-pulse">Loading insights...</div>
@@ -59,16 +72,10 @@ export default function InsightsPage() {
 
       {!loading && !error && insights && (
         <>
-          <DateRangeHeader
-            from={insights.range.from}
-            to={insights.range.to}
-            totalDays={insights.range.totalDays}
-          />
-
           <ConsistencyStrip consistency={insights.consistency} />
 
           {/* Two-column grid layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
             {/* Left column */}
             <div className="space-y-6">
               <SessionsOverTime data={insights.sessionsOverTime} />

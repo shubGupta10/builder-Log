@@ -6,17 +6,33 @@ import { ProjectsResponse } from "@/app/lib/api/types";
 import { ProjectsSummary } from "@/app/modules/projects/ProjectsSummary";
 import { ProjectsList } from "@/app/modules/projects/ProjectsList";
 import { PageShell } from "@/app/components/layout/PageShell";
+import { DateRangeSelector } from "@/components/ui/date-range-selector";
+import { formatDateForAPI, createDateRange } from "@/app/lib/utils/dateUtils";
+import { DateRange } from "react-day-picker";
 
 export default function ProjectsPage() {
   const [data, setData] = useState<ProjectsResponse["data"] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [date, setDate] = useState<DateRange | undefined>(() => {
+    const range = createDateRange(30);
+    return {
+      from: range.from,
+      to: range.to
+    };
+  });
+
   useEffect(() => {
     async function fetchProjects() {
+      if (!date?.from || !date?.to) return;
+
       try {
         setLoading(true);
-        const response = await getProjects();
+        const response = await getProjects({
+          from: formatDateForAPI(date.from),
+          to: formatDateForAPI(date.to),
+        });
         setData(response.data);
       } catch (err) {
         console.error("Failed to fetch projects:", err);
@@ -27,10 +43,14 @@ export default function ProjectsPage() {
     }
 
     fetchProjects();
-  }, []);
+  }, [date]);
 
   return (
     <PageShell>
+      <div className="mb-8">
+        <DateRangeSelector date={date} setDate={setDate} />
+      </div>
+
       {loading && (
         <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
           <div className="animate-pulse">Loading projects...</div>

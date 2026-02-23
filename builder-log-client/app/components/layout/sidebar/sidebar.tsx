@@ -163,14 +163,16 @@ export function Sidebar({ isMobileOpen, onClose }: { isMobileOpen?: boolean; onC
               </div>
             )}
 
-            <button
-              onClick={handleLogout}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-white bg-destructive hover:text-destructive-foreground transition-colors cursor-pointer ${isCollapsed ? "justify-center" : ""}`}
-              title={isCollapsed ? "Logout" : undefined}
-            >
-              <LogOut className="w-5 h-5" />
-              {!isCollapsed && <span className="font-medium">Logout</span>}
-            </button>
+            <div className={`flex gap-2 ${isCollapsed ? "flex-col" : "items-center"}`}>
+              <button
+                onClick={handleLogout}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-white bg-destructive hover:bg-destructive/90 transition-colors cursor-pointer ${isCollapsed ? "justify-center" : ""}`}
+                title={isCollapsed ? "Logout" : undefined}
+              >
+                <LogOut className="w-5 h-5" />
+                {!isCollapsed && <span className="font-medium">Logout</span>}
+              </button>
+            </div>
           </div>
         </div>
       </aside >

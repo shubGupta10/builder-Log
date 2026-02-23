@@ -6,10 +6,8 @@ import { getInsights } from "@/app/lib/api/insights";
 import type { InsightsData } from "@/app/lib/api/types";
 import { DateRangeSelector } from "@/components/ui/date-range-selector";
 import { ConsistencyStrip } from "@/app/modules/insights/ConsistencyStrip";
-import { SessionsOverTime } from "@/app/modules/insights/SessionsOverTime";
-import { ActivityMix } from "@/app/modules/insights/ActivityMix";
-import { FocusDistribution } from "@/app/modules/insights/FocusDistribution";
-import { MomentumSummary } from "@/app/modules/insights/MomentumSummary";
+import { BuildPulse } from "@/app/modules/insights/BuildPulse";
+import { WhereYouBuild } from "@/app/modules/insights/WhereYouBuild";
 import { formatDateForAPI, createDateRange } from "@/app/lib/utils/dateUtils";
 import { PageShell } from "@/app/components/layout/PageShell";
 import { DateRange } from "react-day-picker";
@@ -55,23 +53,17 @@ export default function InsightsPage() {
       )}
 
       {!isLoading && !error && insights && (
-        <>
+        <div className="space-y-6">
           <ConsistencyStrip consistency={insights.consistency} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <div className="space-y-6">
-              <SessionsOverTime data={insights.sessionsOverTime} />
-              <ActivityMix
-                data={insights.activityMix}
-                sessionsOverTime={insights.sessionsOverTime}
-              />
-            </div>
-            <div className="space-y-6">
-              <MomentumSummary data={insights.momentum} />
-              <FocusDistribution data={insights.focusDistribution} />
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <BuildPulse
+              sessionsOverTime={insights.sessionsOverTime}
+              momentum={insights.momentum}
+            />
+            <WhereYouBuild data={insights.focusDistribution} />
           </div>
-        </>
+        </div>
       )}
     </PageShell>
   );

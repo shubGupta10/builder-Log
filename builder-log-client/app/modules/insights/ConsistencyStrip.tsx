@@ -81,14 +81,14 @@ export function ConsistencyStrip({ consistency }: ConsistencyStripProps) {
             <div className="flex gap-6 mt-4 pt-4 border-t border-border">
                 <div>
                     <div className="text-2xl font-bold text-foreground">{activeDays}</div>
-                    <div className="text-xs text-muted-foreground">Active Days</div>
+                    <div className="text-xs text-muted-foreground">Days You Shipped</div>
                 </div>
                 <div>
                     <div className="text-2xl font-bold text-foreground">
                         {currentStreak > 0 ? currentStreak : lastActiveStreak}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                        {currentStreak > 0 ? "Current Streak" : "Last Streak"}
+                        {currentStreak > 0 ? "Shipping Streak" : "Last Streak"}
                     </div>
                 </div>
             </div>

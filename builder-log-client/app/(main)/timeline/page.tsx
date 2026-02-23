@@ -1,55 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useSWR from "swr";
 import { getTimeline } from "@/app/lib/api/timeline";
 import { TimelineDay } from "@/app/lib/api/types";
 import TimelineCard from "@/app/modules/timeline/timelineCard";
 import { DateRangeSelector } from "@/components/ui/date-range-selector";
-import {
-  formatDateForAPI,
-  createDateRange,
-} from "@/app/lib/utils/dateUtils";
+import { formatDateForAPI, createDateRange } from "@/app/lib/utils/dateUtils";
 import { PageShell } from "@/app/components/layout/PageShell";
 import { DateRange } from "react-day-picker";
 
-export default function TimelinePage() {
-  const [timeline, setTimeline] = useState<TimelineDay[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const STALE_TIME = 10 * 60 * 1000;
 
+export default function TimelinePage() {
   const [date, setDate] = useState<DateRange | undefined>(() => {
-    const range = createDateRange(30); // Default to last 30 days
-    return {
-      from: range.from,
-      to: range.to
-    };
+    const range = createDateRange(30);
+    return { from: range.from, to: range.to };
   });
 
-  const loadTimeline = async (range: DateRange | undefined) => {
-    if (!range?.from || !range?.to) return;
+  const from = date?.from ? formatDateForAPI(date.from) : null;
+  const to = date?.to ? formatDateForAPI(date.to) : null;
 
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await getTimeline({
-        from: formatDateForAPI(range.from),
-        to: formatDateForAPI(range.to),
-      });
-      setTimeline(res.timeline);
-    } catch (err: any) {
-      if (err.status === 401) {
-        setError("You are not authenticated");
-      } else {
-        setError("Failed to load timeline");
-      }
-    } finally {
-      setLoading(false);
+  const { data: timeline, isLoading, error } = useSWR<TimelineDay[]>(
+    from && to ? ["timeline", from, to] : null,
+    () => getTimeline({ from: from!, to: to! }).then((r) => r.timeline),
+    {
+      dedupingInterval: STALE_TIME,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     }
-  };
-
-  useEffect(() => {
-    loadTimeline(date);
-  }, [date]);
+  );
 
   return (
     <PageShell>
@@ -59,7 +39,7 @@ export default function TimelinePage() {
         </div>
       </div>
 
-      {loading && (
+      {isLoading && (
         <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
           <div className="animate-pulse">Loading timeline...</div>
         </div>
@@ -67,11 +47,11 @@ export default function TimelinePage() {
 
       {error && (
         <div className="flex items-center justify-center h-48 text-destructive text-sm">
-          {error}
+          {error.status === 401 ? "You are not authenticated" : "Failed to load timeline"}
         </div>
       )}
 
-      {!loading && !error && <TimelineCard timelineData={timeline} />}
+      {!isLoading && !error && <TimelineCard timelineData={timeline ?? null} />}
     </PageShell>
   );
 }

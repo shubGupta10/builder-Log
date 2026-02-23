@@ -1,4 +1,5 @@
 import { apiFetch } from './client';
+import { mutate } from 'swr';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
@@ -20,6 +21,7 @@ export async function logout() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('auth_token');
     }
+    await mutate(() => true, undefined, { revalidate: false });
     window.location.href = '/login';
   } catch (error) {
     console.error("Logout failed:", error);

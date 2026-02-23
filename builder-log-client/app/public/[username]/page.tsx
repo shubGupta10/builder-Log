@@ -8,6 +8,7 @@ import { ProfileHeader } from "@/app/modules/public/ProfileHeader";
 import { RecentActivity } from "@/app/modules/public/RecentActivity";
 import { KeyProjects } from "@/app/modules/public/KeyProjects";
 import { ConsistencyGrid } from "@/app/modules/public/ConsistencyGrid";
+import { DarkModeToggle } from "@/app/components/layout/DarkModeToggle";
 import { ArrowLeft } from "lucide-react";
 
 export default function PublicProfilePage() {
@@ -104,31 +105,36 @@ export default function PublicProfilePage() {
     return (
         <div className="min-h-screen bg-background">
             <div className="max-w-5xl mx-auto px-6 py-12">
-                {/* Go Back Button */}
-                {hasAuthToken && (
-                    <button
-                        onClick={() => router.back()}
-                        className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6"
-                    >
-                        <ArrowLeft size={20} />
-                        <span className="text-sm font-medium">Go back</span>
-                    </button>
-                )}
+                {/* Top bar: back button + theme toggle */}
+                <div className="flex items-center justify-between mb-6">
+                    {hasAuthToken ? (
+                        <button
+                            onClick={() => router.back()}
+                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            <ArrowLeft size={20} />
+                            <span className="text-sm font-medium">Go back</span>
+                        </button>
+                    ) : (
+                        <div />
+                    )}
+                    <DarkModeToggle />
+                </div>
 
                 {/* Profile Header */}
                 <ProfileHeader profile={profile.profile} summary={profile.summary} />
 
                 {/* Vertical Stack Layout */}
                 <div className="space-y-6 mt-6">
-                   
+
 
                     {/* Key Projects */}
                     <KeyProjects projects={profile.projects} />
 
-                {/* Consistency Grid */}
+                    {/* Consistency Grid */}
                     <ConsistencyGrid consistency={profile.consistencyStrip} />
 
-                     {/* Recent Activity */}
+                    {/* Recent Activity */}
                     <RecentActivity activities={profile.recentActivity} />
                 </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useSWR from "swr";
 import { getInsights } from "@/app/lib/api/insights";
 import type { InsightsData } from "@/app/lib/api/types";
 import { DateRangeSelector } from "@/components/ui/date-range-selector";
@@ -13,44 +14,27 @@ import { formatDateForAPI, createDateRange } from "@/app/lib/utils/dateUtils";
 import { PageShell } from "@/app/components/layout/PageShell";
 import { DateRange } from "react-day-picker";
 
-export default function InsightsPage() {
-  const [insights, setInsights] = useState<InsightsData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+// 10 minutes — backend Redis is 80min, frontend is a warm layer on top
+const STALE_TIME = 10 * 60 * 1000;
 
+export default function InsightsPage() {
   const [date, setDate] = useState<DateRange | undefined>(() => {
     const range = createDateRange(30);
-    return {
-      from: range.from,
-      to: range.to
-    };
+    return { from: range.from, to: range.to };
   });
 
-  const loadInsights = async (range: DateRange | undefined) => {
-    if (!range?.from || !range?.to) return;
+  const from = date?.from ? formatDateForAPI(date.from) : null;
+  const to = date?.to ? formatDateForAPI(date.to) : null;
 
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await getInsights({
-        from: formatDateForAPI(range.from),
-        to: formatDateForAPI(range.to),
-      });
-      setInsights(res.data);
-    } catch (err: any) {
-      if (err.status === 401) {
-        setError("You are not authenticated");
-      } else {
-        setError("Failed to load insights");
-      }
-    } finally {
-      setLoading(false);
+  const { data: insights, isLoading, error } = useSWR<InsightsData>(
+    from && to ? ["insights", from, to] : null,
+    () => getInsights({ from: from!, to: to! }).then((r) => r.data),
+    {
+      dedupingInterval: STALE_TIME,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     }
-  };
-
-  useEffect(() => {
-    loadInsights(date);
-  }, [date]);
+  );
 
   return (
     <PageShell>
@@ -58,7 +42,7 @@ export default function InsightsPage() {
         <DateRangeSelector date={date} setDate={setDate} />
       </div>
 
-      {loading && (
+      {isLoading && (
         <div className="flex items-center justify-center h-96 text-muted-foreground text-sm">
           <div className="animate-pulse">Loading insights...</div>
         </div>
@@ -66,17 +50,15 @@ export default function InsightsPage() {
 
       {error && (
         <div className="flex items-center justify-center h-96 text-destructive text-sm">
-          {error}
+          {error.status === 401 ? "You are not authenticated" : "Failed to load insights"}
         </div>
       )}
 
-      {!loading && !error && insights && (
+      {!isLoading && !error && insights && (
         <>
           <ConsistencyStrip consistency={insights.consistency} />
 
-          {/* Two-column grid layout */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            {/* Left column */}
             <div className="space-y-6">
               <SessionsOverTime data={insights.sessionsOverTime} />
               <ActivityMix
@@ -84,8 +66,6 @@ export default function InsightsPage() {
                 sessionsOverTime={insights.sessionsOverTime}
               />
             </div>
-
-            {/* Right column */}
             <div className="space-y-6">
               <MomentumSummary data={insights.momentum} />
               <FocusDistribution data={insights.focusDistribution} />

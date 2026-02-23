@@ -19,7 +19,7 @@ const handleGithubCallback = errorWrapper(
         const token = signToken(user._id.toString());
 
         const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
-        return res.redirect(`${frontendUrl}/timeline?token=${token}`);
+        return res.redirect(`${frontendUrl}/timeline#token=${token}`);
     }
 )
 

@@ -1,26 +1,24 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, Suspense, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
 
 function AuthGuardContent({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const { isAuthenticated, isLoading } = useAuth();
-    
-    // Check if token is in URL (OAuth callback)
-    const tokenInURL = searchParams.get('token');
+    const [processingToken, setProcessingToken] = useState(false);
 
     useEffect(() => {
-        // If token is in URL, extract it first before checking auth
-        if (tokenInURL) {
-            localStorage.setItem('auth_token', tokenInURL);
-            // Remove token from URL for security
-            const url = new URL(window.location.href);
-            url.searchParams.delete('token');
-            window.history.replaceState({}, '', url.pathname);
-            // Refresh the page to re-trigger auth check with new token
+        // Read token from hash fragment (e.g. /timeline#token=eyJhbG...)
+        const hash = window.location.hash.substring(1);
+        const tokenInHash = new URLSearchParams(hash).get('token');
+
+        if (tokenInHash) {
+            setProcessingToken(true);
+            localStorage.setItem('auth_token', tokenInHash);
+            // Remove token from URL
+            window.history.replaceState({}, '', window.location.pathname);
             window.location.reload();
             return;
         }
@@ -28,9 +26,9 @@ function AuthGuardContent({ children }: { children: React.ReactNode }) {
         if (!isLoading && !isAuthenticated) {
             router.push("/login");
         }
-    }, [isLoading, isAuthenticated, router, tokenInURL]);
+    }, [isLoading, isAuthenticated, router]);
 
-    if (tokenInURL || isLoading) {
+    if (processingToken || isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="animate-pulse text-muted-foreground">Loading...</div>

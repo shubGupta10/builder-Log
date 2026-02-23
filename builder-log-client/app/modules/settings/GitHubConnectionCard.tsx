@@ -141,9 +141,14 @@ export function GitHubConnectionCard({
                             </p>
                         )}
                         {oauthScope && (
-                            <p className="text-xs text-muted-foreground">
-                                OAuth scope: <span className="font-mono">{oauthScope}</span>
-                            </p>
+                            <div>
+                                <p className="text-xs text-muted-foreground">
+                                    OAuth scope: <span className="font-mono">{oauthScope}</span>
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                    We request repo access to read your private repo activity. We never write or modify anything.
+                                </p>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -174,16 +179,14 @@ export function GitHubConnectionCard({
                     <button
                         onClick={handleToggleBuilderProfile}
                         disabled={isToggling}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${
-                            isBuilderProfile ? "bg-primary" : "bg-muted"
-                        }`}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${isBuilderProfile ? "bg-primary" : "bg-muted"
+                            }`}
                         role="switch"
                         aria-checked={isBuilderProfile}
                     >
                         <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                isBuilderProfile ? "translate-x-6" : "translate-x-1"
-                            }`}
+                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isBuilderProfile ? "translate-x-6" : "translate-x-1"
+                                }`}
                         />
                     </button>
                 </div>

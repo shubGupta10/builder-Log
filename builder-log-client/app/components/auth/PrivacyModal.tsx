@@ -107,8 +107,9 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                             OAuth Permissions
                         </h3>
                         <p className="text-sm text-muted-foreground">
-                            When you sign in, GitHub will show you exactly what permissions we request.
-                            We only ask for read access to your public repositories and user profile.
+                            We request <span className="font-mono text-xs">repo</span> access to read your private repository activity.
+                            This is required by GitHub to access private repo data — there is no read-only scope available.
+                            We never write to, modify, or delete anything in your repositories.
                         </p>
                     </section>
                 </div>

@@ -4,8 +4,8 @@ const errorWrapper = (fn: any) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             await fn(req, res, next);
-        } catch (error) {
-            console.log(error, "error");
+        } catch (error: any) {
+            console.error(`[ERROR] ${req.method} ${req.path}:`, error.message);
             next(error);
         }
     }

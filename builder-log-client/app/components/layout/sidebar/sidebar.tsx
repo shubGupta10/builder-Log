@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Clock, BarChart3, FolderGit2, ChevronRight, LogOut, User, Settings2Icon } from "lucide-react";
+import { Clock, BarChart3, FolderGit2, GitFork, ChevronRight, LogOut, User, Settings2Icon } from "lucide-react";
 import { useState, useEffect } from "react";
 import { apiFetch } from "@/app/lib/api/client";
 import { logout } from "@/app/lib/api/auth";
@@ -51,6 +51,7 @@ export function Sidebar({ isMobileOpen, onClose }: { isMobileOpen?: boolean; onC
     { href: "/timeline", label: "Timeline", icon: Clock },
     { href: "/insights", label: "Insights", icon: BarChart3 },
     { href: "/projects", label: "Projects", icon: FolderGit2 },
+    { href: "/contributions", label: "Contributions", icon: GitFork },
     { href: "/settings", label: "Settings", icon: Settings2Icon },
   ];
 

@@ -2,6 +2,7 @@ import redis from "../../lib/redis.js";
 import { timelineService } from "../timeline/timeline.service.js";
 import { InsightsService } from "../insights/insights.service.js";
 import { projectsService } from "../projects/projects.service.js";
+import { generateContributions } from "../contributions/contributions.utils.js";
 import { User } from "../user/user.model.js";
 import {
     PublicProfileResponse,
@@ -11,6 +12,7 @@ import {
     ProjectItem,
     ActivityItem,
     MetaSection,
+    ContributionsSection,
 } from "./public.interface.js";
 
 const getPublicProfile = async (username: string): Promise<PublicProfileResponse> => {
@@ -114,6 +116,13 @@ const getPublicProfile = async (username: string): Promise<PublicProfileResponse
         (a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime()
     );
 
+    // Build Contributions section
+    const contributionsData = generateContributions(timeline, user.githubUsername);
+    const contributions: ContributionsSection = {
+        externalRepos: contributionsData.openSource.slice(0, 10),
+        totalExternalContributions: contributionsData.summary.externalCommits + contributionsData.summary.externalPRs,
+    };
+
     const meta: MetaSection = {
         generatedAt: new Date().toISOString(),
         dataRangeDays: 30,
@@ -127,6 +136,7 @@ const getPublicProfile = async (username: string): Promise<PublicProfileResponse
             consistencyStrip,
             projects,
             recentActivity,
+            contributions,
             meta,
         },
     };

@@ -13,6 +13,7 @@ import insightsRouter from "./routers/insights/insights.router.js";
 import projectsRouter from "./routers/projects/projects.router.js";
 import settingsRouter from "./routers/settings/settings.router.js";
 import publicRouter from "./routers/public/public.router.js";
+import contributionsRouter from "./routers/contributions/contributions.router.js";
 
 dotenv.config();
 
@@ -63,6 +64,7 @@ app.use("/insights", insightsRouter);
 app.use("/projects", projectsRouter);
 app.use("/settings", settingsRouter);
 app.use("/public", publicRouter);
+app.use("/contributions", contributionsRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(`[ERROR] ${req.method} ${req.path}:`, err.message);

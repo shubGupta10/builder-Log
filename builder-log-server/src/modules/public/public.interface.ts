@@ -6,6 +6,7 @@ export interface PublicProfileResponse {
     consistencyStrip: ConsistencyStripSection;
     projects: ProjectItem[];
     recentActivity: ActivityItem[];
+    contributions: ContributionsSection;
     meta: MetaSection;
   };
 }
@@ -50,4 +51,17 @@ export interface ActivityItem {
 export interface MetaSection {
   generatedAt: string;
   dataRangeDays: number;
+}
+
+export interface OpenSourceItem {
+  repoOwner: string;
+  repoName: string;
+  commits: number;
+  pullRequests: number;
+  sessions: number;
+}
+
+export interface ContributionsSection {
+  externalRepos: OpenSourceItem[];
+  totalExternalContributions: number;
 }

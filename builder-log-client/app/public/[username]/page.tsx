@@ -8,6 +8,7 @@ import { ProfileHeader } from "@/app/modules/public/ProfileHeader";
 import { RecentActivity } from "@/app/modules/public/RecentActivity";
 import { KeyProjects } from "@/app/modules/public/KeyProjects";
 import { ConsistencyGrid } from "@/app/modules/public/ConsistencyGrid";
+import { OpenSourceContributions } from "@/app/modules/public/OpenSourceContributions";
 import { DarkModeToggle } from "@/app/components/layout/DarkModeToggle";
 import { ArrowLeft } from "lucide-react";
 
@@ -130,6 +131,14 @@ export default function PublicProfilePage() {
 
                     {/* Key Projects */}
                     <KeyProjects projects={profile.projects} />
+
+                    {/* Open Source Contributions */}
+                    {profile.contributions && profile.contributions.externalRepos.length > 0 && (
+                        <OpenSourceContributions
+                            repos={profile.contributions.externalRepos}
+                            totalContributions={profile.contributions.totalExternalContributions}
+                        />
+                    )}
 
                     {/* Consistency Grid */}
                     <ConsistencyGrid consistency={profile.consistencyStrip} />

@@ -186,6 +186,16 @@ export type PublicProfileData = {
   consistencyStrip: ConsistencyStrip;
   projects: PublicProject[];
   recentActivity: PublicActivity[];
+  contributions: {
+    externalRepos: {
+      repoOwner: string;
+      repoName: string;
+      commits: number;
+      pullRequests: number;
+      sessions: number;
+    }[];
+    totalExternalContributions: number;
+  };
   meta: {
     generatedAt: string;
     dataRangeDays: number;

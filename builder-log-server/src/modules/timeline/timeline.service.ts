@@ -73,6 +73,7 @@ const groupIntoSessions = (events: any[]): TimelineSession[] => {
                 endTime: event.occurredAt,
                 events: [event],
                 summary: "",
+                commits: [],
             };
             continue;
         }
@@ -98,6 +99,7 @@ const groupIntoSessions = (events: any[]): TimelineSession[] => {
                 endTime: event.occurredAt,
                 events: [event],
                 summary: "",
+                commits: [],
             };
         }
     }
@@ -123,21 +125,31 @@ const enrichSession = async (
 
     const cached = await redis.get(cacheKey);
     if (cached) {
-        (session as any).commitCount = cached as number;
+        const parsed = typeof cached === 'string' ? JSON.parse(cached) : cached;
+        session.commits = parsed.commits ?? [];
+        (session as any).commitCount = parsed.commitCount ?? 0;
         return;
     }
     try {
+        // Expand the window slightly — GitHub REST `since`/`until` returns nothing
+        // when they are identical (zero-width window). Subtract 1 min from start,
+        // add 1 day to end to capture all commits in this session's timeframe.
+        const sinceDate = new Date(new Date(session.startTime).getTime() - 60_000).toISOString();
+        const untilDate = new Date(new Date(session.endTime).getTime() + 86_400_000).toISOString();
+
         const commits = await githubREST.fetchCommits(
             accessToken,
             session.repoOwner,
             session.repoName,
-            session.startTime,
-            session.endTime
+            sinceDate,
+            untilDate
         );
 
+        session.commits = commits;
         (session as any).commitCount = commits.length;
-        await redis.set(cacheKey, commits.length.toString(), { ex: 86400 });
+        await redis.set(cacheKey, JSON.stringify({ commits, commitCount: commits.length }), { ex: 86400 });
     } catch (error) {
+        session.commits = [];
         (session as any).commitCount = 0;
     }
 };

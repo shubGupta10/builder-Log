@@ -1,4 +1,4 @@
-import { GithubTimelineEvent } from "../../integrations/github/github.types.js";
+import { GithubTimelineEvent, GithubCommit } from "../../integrations/github/github.types.js";
 
 export interface TimelineSession {
   repoOwner: string;
@@ -7,6 +7,7 @@ export interface TimelineSession {
   endTime: string;
   events: GithubTimelineEvent[];
   summary: string;
+  commits: GithubCommit[];
 }
 
 export interface TimelineDay {

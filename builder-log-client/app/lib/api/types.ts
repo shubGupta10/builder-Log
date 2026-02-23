@@ -6,6 +6,13 @@ export type TimelineEvent = {
   occurredAt: string;
 };
 
+export type Commit = {
+  sha: string;
+  message: string;
+  committedAt: string;
+  url: string;
+};
+
 export type TimelineSession = {
   repoOwner: string;
   repoName: string;
@@ -14,6 +21,7 @@ export type TimelineSession = {
   summary: string;
   commitCount?: number;
   events: TimelineEvent[];
+  commits: Commit[];
 };
 
 export type TimelineDay = {
@@ -129,7 +137,7 @@ export type ResyncResponse = {
 export type DisconnectResponse = {
   message: string;
   success: boolean;
-}; 
+};
 
 // Public Profile types
 export type PublicProfile = {

@@ -1,4 +1,4 @@
-import { GitCommitHorizontal, BarChart2, FolderGit2, UserSquare2, Settings, Shield } from "lucide-react";
+import { GitCommitHorizontal, BarChart2, FolderGit2, UserSquare2, Settings, Activity } from "lucide-react";
 
 const features = [
     {
@@ -32,10 +32,10 @@ const features = [
             "Decide what stays private, what goes public, and when to disconnect GitHub entirely.",
     },
     {
-        icon: Shield,
-        title: "Data Transparency",
+        icon: Activity,
+        title: "Contributions",
         description:
-            "Your data comes only from GitHub. No tracking, no hidden analytics, no selling your activity.",
+            "Track your contribution streaks, coding patterns, and activity trends to understand your development rhythm.",
     },
 ];
 
@@ -46,7 +46,7 @@ export default function Features() {
 
                 <div className="text-center mb-16 lg:mb-20">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
-                        Everything you build, neatly organized
+                        Everything you build, <span className="text-primary">neatly organized</span>
                     </h2>
                     <p className="mt-4 text-lg sm:text-xl text-muted-foreground max-w-[600px] mx-auto">
                         We automatically structure your GitHub activity into a comprehensive suite of developer insights.

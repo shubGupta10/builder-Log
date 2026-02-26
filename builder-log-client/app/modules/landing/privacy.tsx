@@ -31,7 +31,7 @@ export default function Privacy() {
                 {/* Header */}
                 <div className="text-center mb-16 lg:mb-20">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
-                        Privacy & Control
+                        <span className="text-primary">Privacy</span> & Control
                     </h2>
                     <p className="mt-4 text-lg sm:text-xl text-muted-foreground max-w-[600px] mx-auto">
                         We believe your data belongs to you. BuilderLog is built with trust from the ground up.

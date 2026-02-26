@@ -32,7 +32,7 @@ export default function HowItWorks() {
                 <div className="mx-auto max-w-6xl px-6">
 
                     <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground mb-16 lg:mb-20">
-                        How BuilderLog works
+                        How <span className="text-primary">BuilderLog</span> works
                     </h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 relative">
@@ -70,7 +70,7 @@ export default function HowItWorks() {
                         {/* Left — text */}
                         <div className="flex flex-col gap-6">
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
-                                Your work, as a living resume.
+                                Your work, as a <span className="text-primary">living resume</span>.
                             </h2>
                             <p className="text-lg sm:text-xl text-muted-foreground">
                                 Showcase your capabilities through actual output, not just buzzwords.
@@ -101,7 +101,7 @@ export default function HowItWorks() {
                             {/* Screenshot */}
                             <div className="w-full aspect-[4/3] overflow-hidden">
                                 <img
-                                    src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=900&q=85"
+                                    src="/detaiiled-timeline.png"
                                     alt="Developer profile preview"
                                     className="h-full w-full object-cover object-top"
                                 />

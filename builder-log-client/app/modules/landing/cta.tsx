@@ -7,7 +7,7 @@ export default function CTA() {
             <div className="mx-auto max-w-6xl px-6 flex flex-col items-center text-center gap-8">
 
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
-                    Ready to log your building journey?
+                    Ready to log your <span className="text-primary">building journey</span>?
                 </h2>
 
                 <Link

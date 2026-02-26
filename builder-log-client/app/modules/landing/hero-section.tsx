@@ -58,8 +58,8 @@ export function HeroSection({
 
                     {/* Title */}
                     <div className="relative z-10 w-full flex justify-center animate-appear">
-                        <h1 className="inline-block bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] sm:leading-[1.1] md:leading-[1.1] lg:leading-[1.1]">
-                            A public log of your<br className="hidden sm:block" /> real development work
+                        <h1 className="inline-block text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] sm:leading-[1.1] md:leading-[1.1] lg:leading-[1.1]">
+                            <span className="bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">A public log of your</span><br className="hidden sm:block" /> <span className="text-primary">real development</span> <span className="bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">work</span>
                         </h1>
                     </div>
 

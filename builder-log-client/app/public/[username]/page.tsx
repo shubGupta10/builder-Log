@@ -152,13 +152,13 @@ export default function PublicProfilePage() {
                                 </div>
                             )}
 
-                            {profile.contributions.externalRepos && profile.contributions.externalRepos.length > 0 && (
+                            <div className="mt-6">
                                 <RepoList
                                     title="Open Source"
-                                    repos={profile.contributions.externalRepos}
-                                    emptyMessage="No open source contributions in this range."
+                                    repos={profile.contributions.externalRepos || []}
+                                    emptyMessage="No open source contributions in the last 30 days."
                                 />
-                            )}
+                            </div>
                         </div>
                     )}
 

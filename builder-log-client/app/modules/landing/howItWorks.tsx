@@ -1,5 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+
 import { CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { TextEffect } from "@/components/ui/text-effect";
@@ -29,6 +32,15 @@ const bullets = [
 ];
 
 export default function HowItWorks() {
+    const { theme, resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && (theme === "dark" || resolvedTheme === "dark");
+
     return (
         <>
             {/* ── STEPS ─────────────────────────────────────── */}
@@ -152,11 +164,13 @@ export default function HowItWorks() {
 
                             <div className="rounded-2xl border border-border bg-card p-3 sm:p-4 relative overflow-hidden aspect-[4/3] w-full transition-transform duration-500 hover:scale-[1.02]">
                                 <div className="w-full h-full overflow-hidden rounded-xl border border-border/50 bg-background">
-                                    <img
-                                        src="/detaiiled-timeline.png"
-                                        alt="Developer profile preview"
-                                        className="h-full w-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-                                    />
+                                    {mounted && (
+                                        <img
+                                            src={isDark ? "/profilePage-dark.png" : "/profilePage-white.png"}
+                                            alt="Developer profile preview"
+                                            className="h-full w-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </motion.div>

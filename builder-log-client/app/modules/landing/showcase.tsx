@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/app/lib/utils";
 import { TextEffect } from "@/components/ui/text-effect";
@@ -10,24 +11,35 @@ const showcaseItems = [
         id: "timeline",
         title: "Detailed Activity Timeline",
         description: "See a chronological feed of every commit, review, and issue you touch. No noise, just the actual work that proves your impact.",
-        image: "/detaiiled-timeline.png",
+        imageLight: "/timeline-white.png",
+        imageDark: "/timeline-dark.png",
     },
     {
         id: "insights",
         title: "Analytics & Insights",
         description: "Visualize your coding rhythm. Track consistency, peak productivity hours, and language distribution across all your repositories.",
-        image: "/insight-builder.png",
+        imageLight: "/insight-white.png",
+        imageDark: "/insight-dark.png",
     },
     {
         id: "profile",
         title: "Shareable Public Profile",
         description: "Turn your scattered GitHub history into a beautiful, unified portfolio. Send one highly-credible link to recruiters or clients.",
-        image: "/sharable-profile.png",
+        imageLight: "/profilePage-white.png",
+        imageDark: "/profilePage-dark.png",
     },
 ];
 
 export default function Showcase() {
     const [activeItem, setActiveItem] = useState(showcaseItems[0]);
+    const { theme, resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const isDark = mounted && (theme === "dark" || resolvedTheme === "dark");
 
     return (
         <section id="showcase" className="bg-background py-24 sm:py-32 relative overflow-hidden">
@@ -104,14 +116,14 @@ export default function Showcase() {
                         <div className="rounded-2xl border border-border bg-card p-2 sm:p-4 relative overflow-hidden aspect-[16/10] sm:aspect-[4/3] lg:aspect-[16/11]">
                             <AnimatePresence mode="wait">
                                 <motion.img
-                                    key={activeItem.id}
-                                    src={activeItem.image}
+                                    key={`${activeItem.id}-${isDark ? 'dark' : 'light'}`}
+                                    src={isDark ? activeItem.imageDark : activeItem.imageLight}
                                     alt={activeItem.title}
                                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: -10, scale: 0.98 }}
                                     transition={{ duration: 0.4, ease: "easeOut" }}
-                                    className="w-full h-full object-cover object-top rounded-xl border border-border/50"
+                                    className="w-full h-full object-contain object-top rounded-xl border border-border/50 bg-background/50"
                                 />
                             </AnimatePresence>
                         </div>

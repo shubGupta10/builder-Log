@@ -23,8 +23,8 @@ export default function Header() {
     const isDark = mounted && (theme === "dark" || resolvedTheme === "dark");
 
     return (
-        <header className="w-full border-b border-border bg-background">
-            <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+        <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-md transition-all">
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
                 <Link href="/" className="flex items-center gap-2">
                     {mounted ? (
                         <Image
@@ -52,7 +52,7 @@ export default function Header() {
                     <DarkModeToggle />
                     <Link
                         href="/login"
-                        className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
+                        className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-all hover:scale-105 active:scale-95 shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)]"
                     >
                         Sign in
                     </Link>

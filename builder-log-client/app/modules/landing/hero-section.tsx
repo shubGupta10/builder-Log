@@ -1,9 +1,14 @@
 "use client";
 
-import { ArrowRightIcon } from "lucide-react";
+import React from "react";
+import Link from "next/link";
+import { ArrowRightIcon, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AnimatedGroup } from "@/components/ui/animated-group";
+import { TextEffect } from "@/components/ui/text-effect";
 import { cn } from "@/app/lib/utils";
+import { Variants } from "framer-motion";
 
 interface HeroAction {
     text: string;
@@ -25,6 +30,13 @@ interface HeroProps {
     actions: HeroAction[];
 }
 
+const transitionVariants: { container?: Variants; item?: Variants } = {
+    item: {
+        hidden: { opacity: 0, filter: "blur(12px)", y: 12 },
+        visible: { opacity: 1, filter: "blur(0px)", y: 0, transition: { type: "spring", bounce: 0.3, duration: 1.5 } },
+    },
+};
+
 export function HeroSection({
     badge,
     title,
@@ -32,68 +44,138 @@ export function HeroSection({
     actions,
 }: HeroProps) {
     return (
-        <section
-            className={cn(
-                "relative bg-background text-foreground",
-                "min-h-[calc(100vh-73px)] w-full flex items-center px-4 overflow-hidden"
-            )}
-        >
-            {/* Subtle background glow for depth */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        <section className="relative w-full overflow-hidden">
+            <div
+                aria-hidden
+                className="z-[2] absolute inset-0 pointer-events-none isolate opacity-50 contain-strict hidden lg:block"
+            >
+                <div className="w-[35rem] h-[80rem] -translate-y-[350px] absolute left-0 top-0 -rotate-45 rounded-full bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,hsla(0,0%,85%,.08)_0,hsla(0,0%,55%,.02)_50%,hsla(0,0%,45%,0)_80%)] dark:bg-[radial-gradient(68.54%_68.72%_at_55.02%_31.46%,hsla(0,0%,15%,.08)_0,hsla(0,0%,45%,.02)_50%,hsla(0,0%,55%,0)_80%)]" />
+                <div className="h-[80rem] absolute left-0 top-0 w-56 -rotate-45 rounded-full bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.06)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] dark:bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,15%,.06)_0,hsla(0,0%,55%,.02)_80%,transparent_100%)] [translate:5%_-50%]" />
+                <div className="h-[80rem] -translate-y-[350px] absolute left-0 top-0 w-56 -rotate-45 bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,85%,.04)_0,hsla(0,0%,45%,.02)_80%,transparent_100%)] dark:bg-[radial-gradient(50%_50%_at_50%_50%,hsla(0,0%,15%,.04)_0,hsla(0,0%,55%,.02)_80%,transparent_100%)]" />
+            </div>
 
-            <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 sm:gap-12">
-                <div className="flex flex-col items-center gap-6 text-center sm:gap-8 w-full">
-                    {/* Badge */}
-                    {badge && (
-                        <div className="animate-appear">
-                            <Badge variant="outline" className="gap-2 rounded-full px-4 py-1.5 shadow-sm text-sm border-border/60 bg-background/50 backdrop-blur-sm">
-                                <span className="text-muted-foreground">{badge.text}</span>
-                                <a href={badge.action.href} className="flex items-center gap-1 hover:underline text-foreground">
-                                    {badge.action.text}
-                                    <ArrowRightIcon className="h-3.5 w-3.5" />
-                                </a>
-                            </Badge>
-                        </div>
-                    )}
+            <div className="relative pt-12 md:pt-16 pb-16">
+                <div aria-hidden className="absolute inset-0 -z-10 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--background)_75%)]" />
 
-                    {/* Title */}
-                    <div className="relative z-10 w-full flex justify-center animate-appear">
-                        <h1 className="inline-block text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] sm:leading-[1.1] md:leading-[1.1] lg:leading-[1.1]">
-                            <span className="bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">A public log of your</span><br className="hidden sm:block" /> <span className="text-primary">real development</span> <span className="bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">work</span>
-                        </h1>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-base sm:text-lg md:text-xl font-medium text-muted-foreground max-w-[600px] animate-appear opacity-0 delay-100 leading-relaxed">
-                        {description}
-                    </p>
-
-                    {/* Actions */}
-                    <div className="relative z-10 flex flex-col items-center gap-4 animate-appear opacity-0 delay-300 mt-2">
-                        <div className="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto">
-                            {actions.map((action, index) => (
-                                <Button
-                                    key={index}
-                                    variant={action.variant as any}
-                                    size="lg"
-                                    className={cn("h-12 px-8 text-base", action.variant === "default" && "shadow-sm", action.variant === "outline" && "border border-border/50 shadow-sm bg-background")}
-                                    asChild
+                <div className="mx-auto max-w-7xl px-6 relative z-10">
+                    <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0">
+                        <AnimatedGroup variants={transitionVariants}>
+                            {badge && (
+                                <Link
+                                    href={badge.action.href}
+                                    className="hover:bg-muted/80 bg-muted/40 group mx-auto flex w-fit items-center gap-4 rounded-full p-1 pl-4 transition-all duration-300"
                                 >
-                                    <a href={action.href} className="flex items-center gap-2">
-                                        {action.icon}
-                                        {action.text}
-                                    </a>
+                                    <span className="text-foreground text-sm flex gap-1 items-center">
+                                        <span className="text-muted-foreground mr-1">{badge.text}</span> <span className="font-medium">{badge.action.text}</span>
+                                    </span>
+                                    <span className="dark:bg-white/10 block h-4 w-px bg-black/10"></span>
+
+                                    <div className="bg-transparent group-hover:bg-muted size-6 overflow-hidden rounded-full duration-500">
+                                        <div className="flex w-12 -translate-x-1/2 duration-500 ease-in-out group-hover:translate-x-0">
+                                            <span className="flex size-6">
+                                                <ArrowRight className="m-auto size-3" />
+                                            </span>
+                                            <span className="flex size-6">
+                                                <ArrowRight className="m-auto size-3" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            )}
+
+                            <h1 className="mt-8 max-w-4xl mx-auto text-balance text-6xl md:text-7xl lg:mt-12 xl:text-[5.25rem] font-medium tracking-tight leading-[1.1]">
+                                <TextEffect
+                                    per="word"
+                                    delay={0.2}
+                                    variants={{
+                                        container: {
+                                            hidden: { opacity: 0 },
+                                            visible: {
+                                                opacity: 1,
+                                                transition: { staggerChildren: 0.1 },
+                                            },
+                                        },
+                                        item: {
+                                            hidden: { opacity: 0, y: 10, filter: "blur(4px)" },
+                                            visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, type: "spring", bounce: 0.2 } },
+                                        },
+                                    }}
+                                >
+                                    A public log of your real development work
+                                </TextEffect>
+                            </h1>
+
+                            <p className="mx-auto mt-8 max-w-2xl text-balance text-lg text-muted-foreground">
+                                {description}
+                            </p>
+                        </AnimatedGroup>
+
+                        <AnimatedGroup
+                            variants={{
+                                container: {
+                                    visible: {
+                                        transition: {
+                                            staggerChildren: 0.05,
+                                            delayChildren: 0.75,
+                                        },
+                                    },
+                                },
+                                ...transitionVariants,
+                            } as any}
+                            className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row"
+                        >
+                            {actions.map((action, i) => (
+                                <Button
+                                    key={i}
+                                    asChild
+                                    size="lg"
+                                    variant={action.variant as any}
+                                    className={cn(
+                                        "rounded-xl px-7 text-base h-12 border-0",
+                                        action.variant === "outline" && "border border-border/50 bg-background"
+                                    )}
+                                >
+                                    <Link href={action.href} className="flex gap-2 items-center">
+                                        {action.icon && action.icon}
+                                        <span className="text-nowrap">{action.text}</span>
+                                    </Link>
                                 </Button>
                             ))}
-                        </div>
+                        </AnimatedGroup>
 
-                        {/* Trust line */}
-                        <p className="text-sm font-medium text-muted-foreground mt-2">
-                            Read-only access. Open source. Free forever.
-                        </p>
+                        <AnimatedGroup
+                            variants={{
+                                container: {
+                                    visible: {
+                                        transition: {
+                                            delayChildren: 1.25,
+                                        },
+                                    },
+                                },
+                                item: {
+                                    hidden: {
+                                        opacity: 0,
+                                        y: 10,
+                                    },
+                                    visible: {
+                                        opacity: 1,
+                                        y: 0,
+                                        transition: {
+                                            type: "spring",
+                                            bounce: 0.1,
+                                            duration: 1,
+                                        },
+                                    },
+                                },
+                            }}
+                        >
+                            <p className="text-sm font-medium text-muted-foreground mt-8 text-center mx-auto opacity-70">
+                                Read-only access. Open source. Free forever.
+                            </p>
+                        </AnimatedGroup>
                     </div>
-
                 </div>
+
             </div>
         </section>
     );

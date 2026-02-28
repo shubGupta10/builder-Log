@@ -96,10 +96,10 @@ builder-log/
 
 ## Authentication & Privacy
 
-- GitHub OAuth with **read-only scopes** — BuilderLog never writes to GitHub
-- Access tokens stored securely
-- Public profile is **opt-in**
-- You can disconnect GitHub at any time
+- **Read-Only Access:** BuilderLog *never* writes to your GitHub account or repositories. We only read your activity (commits, pull requests, timestamps) to build your timeline and insights.
+- **Why we need the `repo` scope:** To show your activity from private repositories, GitHub requires the `repo` scope. Unfortunately, GitHub does not offer a "read-only" scope for private repositories yet. Even though the authorization screen says "read and write", we ONLY read your data.
+- **Security:** Access tokens are stored securely.
+- **Control:** Your public profile is strictly **opt-in**, and you can disconnect GitHub at any time to delete your data.
 
 ---
 

@@ -8,7 +8,7 @@ import { ProfileHeader } from "@/app/modules/public/ProfileHeader";
 import { RecentActivity } from "@/app/modules/public/RecentActivity";
 import { KeyProjects } from "@/app/modules/public/KeyProjects";
 import { ConsistencyGrid } from "@/app/modules/public/ConsistencyGrid";
-import { OpenSourceContributions } from "@/app/modules/public/OpenSourceContributions";
+import { RepoList } from "@/app/modules/contributions/RepoList";
 import { DarkModeToggle } from "@/app/components/layout/DarkModeToggle";
 import { ArrowLeft } from "lucide-react";
 
@@ -132,12 +132,34 @@ export default function PublicProfilePage() {
                     {/* Key Projects */}
                     <KeyProjects projects={profile.projects} />
 
-                    {/* Open Source Contributions */}
-                    {profile.contributions && profile.contributions.externalRepos.length > 0 && (
-                        <OpenSourceContributions
-                            repos={profile.contributions.externalRepos}
-                            totalContributions={profile.contributions.totalExternalContributions}
-                        />
+                    {/* Contributions */}
+                    {profile.contributions && (
+                        <div className="space-y-6 pt-6 mt-6 border-t border-border/50">
+                            <h2 className="text-xl font-bold text-foreground">Open Source Contributions</h2>
+
+                            {/* Only render summary if the backend cache has updated to include it */}
+                            {profile.contributions.summary && (
+                                <div className="grid grid-cols-1 sm:grid-cols-2">
+                                    <div className="bg-card border border-border shadow-md rounded-xl p-6 flex flex-col gap-2">
+                                        <div className="text-4xl font-bold text-foreground leading-none">{profile.contributions.summary.externalRepos}</div>
+                                        <div>
+                                            <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">Open Source</div>
+                                            <div className="text-[10px] text-muted-foreground/70 uppercase tracking-wider">
+                                                {profile.contributions.summary.externalCommits} commits · {profile.contributions.summary.externalPRs} PRs
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {profile.contributions.externalRepos && profile.contributions.externalRepos.length > 0 && (
+                                <RepoList
+                                    title="Open Source"
+                                    repos={profile.contributions.externalRepos}
+                                    emptyMessage="No open source contributions in this range."
+                                />
+                            )}
+                        </div>
                     )}
 
                     {/* Consistency Grid */}

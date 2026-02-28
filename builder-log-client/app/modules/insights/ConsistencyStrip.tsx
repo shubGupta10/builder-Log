@@ -28,7 +28,7 @@ export function ConsistencyStrip({ consistency }: ConsistencyStripProps) {
     };
 
     return (
-        <div className="bg-card border border-border rounded-lg p-6 mb-6">
+        <div className="bg-card border border-border rounded-xl p-6 mb-6 shadow-md">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                     <h2 className="text-lg font-semibold text-foreground">Consistency Strip</h2>
@@ -60,7 +60,7 @@ export function ConsistencyStrip({ consistency }: ConsistencyStripProps) {
                                 {row.map((day) => (
                                     <div
                                         key={day.date}
-                                        className={`h-8 rounded-sm transition-colors ${day.hasActivity ? "bg-primary" : "bg-muted"
+                                        className={`h-8 rounded-sm shadow-sm ${day.hasActivity ? "bg-primary" : "bg-muted"
                                             }`}
                                         title={`${day.date}: ${day.hasActivity ? "Active" : "Inactive"}`}
                                     />

@@ -16,21 +16,27 @@ export function BuildPulse({ sessionsOverTime, momentum }: BuildPulseProps) {
         switch (trend) {
             case "up":
                 return (
-                    <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/10 border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.1)]">
+                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
                 );
             case "down":
                 return (
-                    <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
-                    </svg>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-500/10 border border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+                        <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                        </svg>
+                    </div>
                 );
             case "flat":
                 return (
-                    <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14" />
-                    </svg>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted border border-border/50">
+                        <svg className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14" />
+                        </svg>
+                    </div>
                 );
         }
     };
@@ -55,7 +61,7 @@ export function BuildPulse({ sessionsOverTime, momentum }: BuildPulseProps) {
     };
 
     return (
-        <div className="bg-card border border-border rounded-lg p-6">
+        <div className="bg-card border border-border rounded-xl p-6 shadow-md">
             <div className="flex items-center gap-2 mb-6">
                 <h2 className="text-lg font-semibold text-foreground">Build Pulse</h2>
                 <InfoTooltip text="Your coding velocity — how intensely and consistently you've been shipping." />
@@ -95,9 +101,8 @@ export function BuildPulse({ sessionsOverTime, momentum }: BuildPulseProps) {
                         return (
                             <div key={week.period} className="flex-1 flex flex-col items-center justify-end h-full">
                                 <div
-                                    className={`w-full rounded-t transition-all ${
-                                        week.sessions > 0 ? "bg-primary" : "bg-muted"
-                                    }`}
+                                    className={`w-full rounded-sm shadow-sm transition-all hover:brightness-125 cursor-pointer ${week.sessions > 0 ? "bg-primary shadow-[0_0_12px_rgba(var(--primary),0.5)]" : "bg-muted"
+                                        }`}
                                     style={{ height: `${heightPercent}%` }}
                                     title={`${week.sessions} sessions`}
                                 />

@@ -11,7 +11,7 @@ export function WhereYouBuild({ data }: WhereYouBuildProps) {
 
     if (data.length === 0) {
         return (
-            <div className="bg-card border border-border rounded-lg p-6">
+            <div className="bg-card border border-border rounded-xl shadow-md p-6">
                 <div className="flex items-center gap-2 mb-6">
                     <h2 className="text-lg font-semibold text-foreground">Where You Build</h2>
                 </div>
@@ -21,7 +21,7 @@ export function WhereYouBuild({ data }: WhereYouBuildProps) {
     }
 
     return (
-        <div className="bg-card border border-border rounded-lg p-6">
+        <div className="bg-card border border-border rounded-xl shadow-md p-6">
             <div className="flex items-center gap-2 mb-6">
                 <h2 className="text-lg font-semibold text-foreground">Where You Build</h2>
                 <InfoTooltip text="A breakdown of which repositories you spent the most development sessions working on." />

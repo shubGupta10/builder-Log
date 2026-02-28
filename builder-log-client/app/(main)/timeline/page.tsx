@@ -33,25 +33,30 @@ export default function TimelinePage() {
 
   return (
     <PageShell>
-      <div className="mb-6 space-y-4">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <DateRangeSelector date={date} setDate={setDate} />
+      <div className="relative isolate">
+        {/* Subtle background glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary),0.03),transparent_50%)] pointer-events-none -z-10" />
+
+        <div className="mb-6 space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <DateRangeSelector date={date} setDate={setDate} />
+          </div>
         </div>
+
+        {isLoading && (
+          <div className="flex items-center justify-center h-48 text-muted-foreground text-sm bg-card border border-border shadow-md rounded-xl mt-8">
+            <div className="animate-pulse">Loading timeline...</div>
+          </div>
+        )}
+
+        {error && (
+          <div className="flex items-center justify-center h-48 text-destructive text-sm bg-card border border-border shadow-md rounded-xl mt-8">
+            {error.status === 401 ? "You are not authenticated" : "Failed to load timeline"}
+          </div>
+        )}
+
+        {!isLoading && !error && <TimelineCard timelineData={timeline ?? null} />}
       </div>
-
-      {isLoading && (
-        <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
-          <div className="animate-pulse">Loading timeline...</div>
-        </div>
-      )}
-
-      {error && (
-        <div className="flex items-center justify-center h-48 text-destructive text-sm">
-          {error.status === 401 ? "You are not authenticated" : "Failed to load timeline"}
-        </div>
-      )}
-
-      {!isLoading && !error && <TimelineCard timelineData={timeline ?? null} />}
     </PageShell>
   );
 }

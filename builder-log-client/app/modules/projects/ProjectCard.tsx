@@ -9,17 +9,17 @@ interface ProjectCardProps {
 const statusConfig = {
     active: {
         label: "Active",
-        color: "bg-[#dff6e8] text-[#37ca6d]",
+        color: "bg-green-500/10 text-green-500 font-semibold",
         icon: Activity,
     },
     stalled: {
         label: "Stalled",
-        color: "bg-[#fdf7e6] text-[#efc23a]",
+        color: "bg-amber-500/10 text-amber-500 font-semibold",
         icon: Archive,
     },
     shipped: {
         label: "Shipped",
-        color: "bg-[#f1f3f4] text-[#2a313d]",
+        color: "bg-muted text-muted-foreground font-semibold",
         icon: CheckCircle,
     },
 };
@@ -29,7 +29,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     const StatusIcon = status.icon;
 
     return (
-        <div className="group relative p-6 bg-card rounded-xl border border-border hover:border-primary/50 transition-all duration-200 hover:shadow-lg dark:hover:shadow-primary/5">
+        <div className="group relative p-6 bg-card rounded-xl border border-border/50 shadow-sm hover:shadow-md hover:border-border transition-all duration-200">
             <div className="flex items-start justify-between mb-6">
                 <div>
                     <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -40,7 +40,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                     </p>
                 </div>
                 <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-medium flex items-center gap-1.5 ${status.color}`}
+                    className={`px-2 py-1 rounded-md text-[10px] uppercase tracking-wider flex items-center gap-1.5 ${status.color}`}
                 >
                     {status.label}
                 </span>

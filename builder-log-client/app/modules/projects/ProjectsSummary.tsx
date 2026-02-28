@@ -1,5 +1,4 @@
 import { ProjectsSummary as SummaryType } from "@/app/lib/api/types";
-import { FolderGit2, Activity, Archive, CheckCircle } from "lucide-react";
 
 interface ProjectsSummaryProps {
     summary: SummaryType;
@@ -10,35 +9,31 @@ export function ProjectsSummary({ summary }: ProjectsSummaryProps) {
         {
             label: "Total projects",
             value: summary.totalProjects,
-            icon: FolderGit2,
             color: "text-foreground",
         },
         {
             label: "Active",
             value: summary.active,
-            icon: Activity,
-            color: "text-[#37ca6d]",
+            color: "text-green-500",
         },
         {
             label: "Stalled",
             value: summary.stalled,
-            icon: Archive,
-            color: "text-[#efc23a]",
+            color: "text-amber-500",
         },
         {
             label: "Shipped",
             value: summary.shipped,
-            icon: CheckCircle,
-            color: "text-[#2a313d]",
+            color: "text-muted-foreground",
         },
     ];
 
     return (
-        <div className="flex flex-wrap gap-6 items-center">
+        <div className="flex flex-wrap gap-10 items-center bg-card border border-border shadow-md rounded-xl p-6">
             {stats.map((stat) => (
-                <div key={stat.label} className="flex items-center gap-2">
-                    <span className={`text-2xl font-bold ${stat.color}`}>{stat.value}</span>
-                    <span className="text-sm text-muted-foreground font-medium">{stat.label}</span>
+                <div key={stat.label} className="flex flex-col gap-1.5">
+                    <div className={`text-4xl font-bold leading-none ${stat.color}`}>{stat.value}</div>
+                    <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{stat.label}</div>
                 </div>
             ))}
         </div>

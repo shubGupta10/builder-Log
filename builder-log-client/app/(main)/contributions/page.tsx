@@ -38,13 +38,13 @@ export default function ContributionsPage() {
             </div>
 
             {isLoading && (
-                <div className="flex items-center justify-center h-96 text-muted-foreground text-sm">
+                <div className="flex items-center justify-center h-96 text-muted-foreground text-sm bg-card border border-border shadow-md rounded-xl p-6">
                     <div className="animate-pulse">Loading contributions...</div>
                 </div>
             )}
 
             {error && (
-                <div className="flex items-center justify-center h-96 text-destructive text-sm">
+                <div className="flex items-center justify-center h-96 text-destructive text-sm bg-card border border-border shadow-md rounded-xl p-6">
                     {error.status === 401 ? "You are not authenticated" : "Failed to load contributions"}
                 </div>
             )}

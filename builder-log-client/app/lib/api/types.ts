@@ -187,6 +187,22 @@ export type PublicProfileData = {
   projects: PublicProject[];
   recentActivity: PublicActivity[];
   contributions: {
+    summary: {
+      ownRepos: number;
+      externalRepos: number;
+      ownCommits: number;
+      externalCommits: number;
+      ownPRs: number;
+      externalPRs: number;
+      openSourcePercent: number;
+    };
+    ownProjects: {
+      repoOwner: string;
+      repoName: string;
+      commits: number;
+      pullRequests: number;
+      sessions: number;
+    }[];
     externalRepos: {
       repoOwner: string;
       repoName: string;

@@ -119,6 +119,8 @@ const getPublicProfile = async (username: string): Promise<PublicProfileResponse
     // Build Contributions section
     const contributionsData = generateContributions(timeline, user.githubUsername);
     const contributions: ContributionsSection = {
+        summary: contributionsData.summary,
+        ownProjects: contributionsData.ownProjects.slice(0, 10),
         externalRepos: contributionsData.openSource.slice(0, 10),
         totalExternalContributions: contributionsData.summary.externalCommits + contributionsData.summary.externalPRs,
     };

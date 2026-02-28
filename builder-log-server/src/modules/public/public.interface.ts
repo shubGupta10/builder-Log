@@ -62,6 +62,16 @@ export interface OpenSourceItem {
 }
 
 export interface ContributionsSection {
+  summary: {
+    ownRepos: number;
+    externalRepos: number;
+    ownCommits: number;
+    externalCommits: number;
+    ownPRs: number;
+    externalPRs: number;
+    openSourcePercent: number;
+  };
+  ownProjects: OpenSourceItem[];
   externalRepos: OpenSourceItem[];
   totalExternalContributions: number;
 }

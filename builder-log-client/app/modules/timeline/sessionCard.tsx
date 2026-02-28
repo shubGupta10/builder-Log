@@ -21,7 +21,7 @@ function SessionCard({ session }: { session: TimelineSession }) {
   const prEvents = session.events.filter((e) => e.type === "pull_request");
 
   return (
-    <div className="bg-card border border-border rounded-lg shadow-sm mb-3 last:mb-0 overflow-hidden">
+    <div className="bg-card border border-border rounded-xl shadow-md mb-3 last:mb-0 overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-[2px]">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-3.5 pb-2.5">
         <div className="flex items-center gap-1 min-w-0">
@@ -39,7 +39,7 @@ function SessionCard({ session }: { session: TimelineSession }) {
       </div>
 
       {/* Summary */}
-      <p className="px-4 pb-3 text-sm text-foreground/80 leading-relaxed border-b border-border">
+      <p className="px-4 pb-3 text-sm text-foreground/80 leading-relaxed border-b border-border/50">
         {session.summary}
       </p>
 
@@ -49,9 +49,9 @@ function SessionCard({ session }: { session: TimelineSession }) {
           {commits.map((commit) => (
             <div
               key={commit.sha}
-              className="flex items-start gap-3 py-2.5 border-t border-border"
+              className="flex items-start gap-3 py-2.5 border-t border-border/50"
             >
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-accent text-accent-foreground shrink-0 mt-0.5">
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary border border-primary/20 shrink-0 mt-0.5 shadow-[0_0_10px_rgba(var(--primary),0.1)]">
                 <GitCommitHorizontal size={13} strokeWidth={2} />
               </span>
 
@@ -91,9 +91,9 @@ function SessionCard({ session }: { session: TimelineSession }) {
           {prEvents.map((event, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-3 py-2.5 border-t border-border"
+              className="flex items-center gap-3 py-2.5 border-t border-border/50"
             >
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-accent text-accent-foreground shrink-0">
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary border border-primary/20 shrink-0 shadow-[0_0_10px_rgba(var(--primary),0.1)]">
                 <GitPullRequest size={13} strokeWidth={2} />
               </span>
               <div className="flex-1 min-w-0">
@@ -115,9 +115,9 @@ function SessionCard({ session }: { session: TimelineSession }) {
           {session.events.map((event, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-3 py-2.5 border-t border-border"
+              className="flex items-center gap-3 py-2.5 border-t border-border/50"
             >
-              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-accent text-accent-foreground shrink-0">
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary border border-primary/20 shrink-0 shadow-[0_0_10px_rgba(var(--primary),0.1)]">
                 <GitCommitHorizontal size={13} strokeWidth={2} />
               </span>
               <div className="flex-1 min-w-0">

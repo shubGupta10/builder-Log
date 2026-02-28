@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { loginWithGitHub } from "@/app/lib/api/auth";
-import { Clock, Shield, Eye, Github } from "lucide-react";
+import { Clock, Shield, Eye, Github, Loader2 } from "lucide-react";
 import { PrivacyModal } from "@/app/components/auth/PrivacyModal";
 
 export default function LoginPage() {
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleLogin = () => {
+    setIsLoggingIn(true);
     loginWithGitHub();
   };
 
@@ -86,13 +88,18 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="bg-card border border-border rounded-lg p-8 shadow-sm">
+          <div className="bg-card/50 backdrop-blur-xl border border-border/50 rounded-2xl p-8">
             <button
               onClick={handleLogin}
-              className="w-full bg-foreground text-background hover:bg-foreground/90 transition-colors py-3 px-4 rounded-lg font-medium flex items-center justify-center gap-3 cursor-pointer"
+              disabled={isLoggingIn}
+              className={`w-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)] transition-all ${!isLoggingIn ? 'hover:scale-[1.02] active:scale-[0.98]' : 'opacity-90 cursor-wait'} py-3.5 px-4 rounded-xl font-medium flex items-center justify-center gap-3 cursor-pointer`}
             >
-              <Github className="w-5 h-5" />
-              Continue with GitHub
+              {isLoggingIn ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Github className="w-5 h-5" />
+              )}
+              {isLoggingIn ? "Redirecting..." : "Continue with GitHub"}
             </button>
 
             <p className="text-xs text-muted-foreground text-center mt-6">

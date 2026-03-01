@@ -30,6 +30,13 @@ const startGithubAuth = errorWrapper(
     }
 )
 
+const startGithubUpgrade = errorWrapper(
+    async (req: Request, res: Response) => {
+        const redirectUrl = authService.startGithubUpgrade();
+        return res.json({ redirectUrl });
+    }
+)
+
 const logoutUser = errorWrapper(
     async (req: Request, res: Response) => {
         return res.status(200).json({
@@ -41,5 +48,6 @@ const logoutUser = errorWrapper(
 export {
     handleGithubCallback,
     startGithubAuth,
+    startGithubUpgrade,
     logoutUser
 }

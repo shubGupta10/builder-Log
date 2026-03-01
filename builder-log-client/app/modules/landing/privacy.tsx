@@ -12,8 +12,8 @@ const items = [
     },
     {
         icon: Lock,
-        title: "No Private Repo Access",
-        description: "BuilderLog only requests access to your public repository data.",
+        title: "Private Access is Opt-In",
+        description: "By default we only read your public activity. You can optionally grant private repo access from Settings — we never write or modify anything.",
     },
     {
         icon: EyeOff,

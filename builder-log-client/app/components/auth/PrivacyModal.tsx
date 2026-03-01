@@ -39,10 +39,11 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                             We access the following read-only data from your GitHub account:
                         </p>
                         <ul className="list-disc list-inside space-y-1 text-muted-foreground ml-2">
-                            <li>Repository names and commit history</li>
-                            <li>Commit timestamps and messages</li>
                             <li>Your GitHub username and avatar</li>
+                            <li>Public repository names and commit history</li>
+                            <li>Commit timestamps and messages</li>
                             <li>Public activity timeline</li>
+                            <li>Private repository activity <span className="text-xs">(only if you opt in from Settings)</span></li>
                         </ul>
                     </section>
 
@@ -106,10 +107,13 @@ export function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
                         <h3 className="text-sm font-semibold text-foreground mb-2">
                             OAuth Permissions
                         </h3>
+                        <p className="text-sm text-muted-foreground mb-2">
+                            By default, BuilderLog requests only <span className="font-mono text-xs">public_repo</span> access — giving us read-only access to your public repository activity, with no ability to write or modify anything.
+                        </p>
                         <p className="text-sm text-muted-foreground">
-                            We request <span className="font-mono text-xs">repo</span> access to read your private repository activity.
-                            This is required by GitHub to access private repo data — there is no read-only scope available.
-                            We never write to, modify, or delete anything in your repositories.
+                            If you want your private repository activity included, you can optionally upgrade from the{" "}
+                            <strong>Settings</strong> page. This requests the <span className="font-mono text-xs">repo</span> scope,
+                            which GitHub labels as read/write — but we only ever <strong>read</strong> your data. We never write to, modify, or delete anything.
                         </p>
                     </section>
                 </div>

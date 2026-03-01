@@ -23,3 +23,8 @@ export function toggleBuilderProfile(isBuilderProfile: boolean) {
         body: JSON.stringify({ isBuilderProfile }),
     });
 }
+
+export async function upgradeToPrivateAccess(): Promise<void> {
+    const res = await apiFetch<{ redirectUrl: string }>("/auth/github/upgrade");
+    window.location.href = res.redirectUrl;
+}

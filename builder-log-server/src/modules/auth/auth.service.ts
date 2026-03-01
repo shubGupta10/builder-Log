@@ -85,6 +85,18 @@ const startGithubAuth = () => {
         `&redirect_uri=${encodeURIComponent(
             REDIRECT_URI
         )}` +
+        `&scope=read:user public_repo`;
+
+    return redirectUrl;
+}
+
+const startGithubUpgrade = () => {
+    const redirectUrl =
+        "https://github.com/login/oauth/authorize" +
+        `?client_id=${process.env.GITHUB_CLIENT_ID}` +
+        `&redirect_uri=${encodeURIComponent(
+            REDIRECT_URI
+        )}` +
         `&scope=read:user repo`;
 
     return redirectUrl;
@@ -92,5 +104,6 @@ const startGithubAuth = () => {
 
 export const authService = {
     handleGithubCallback,
-    startGithubAuth
+    startGithubAuth,
+    startGithubUpgrade
 }
